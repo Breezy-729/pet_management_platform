@@ -1,0 +1,110 @@
+<!-- pets/templates/pets/pet_profile.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ pet.name }}'s Profile - Pet Care Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Pet Info Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                {% if pet.photo %}
+                <img src="{{ pet.photo.url }}" 
+                     class="card-img-top" 
+                     style="height: 250px; object-fit: cover;"
+                     alt="{{ pet.name }}">
+                {% else %}
+                <img src="{% static 'images/default-pet.png' %}"
+                     class="card-img-top" 
+                     style="height: 250px; object-fit: cover;"
+                     alt="{{ pet.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h3 class="card-title mb-3">{{ pet.name }}</h3>
+                    <div class="pet-info">
+                        <p><i class="fas fa-paw me-2"></i>{{ pet.get_species_display }} - {{ pet.breed }}</p>
+                        <p><i class="fas fa-venus-mars me-2"></i>{{ pet.get_gender_display }}</p>
+                        <p><i class="fas fa-birthday-cake me-2"></i>{{ pet.birthdate|date:"F j, Y" }}</p>
+                        <p><i class="fas fa-weight me-2"></i>{{ pet.weight }} kg</p>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'edit_pet' pet.id %}" class="btn btn-primary">
+                            Edit Profile
+                        </a>
+                        <a href="{% url 'add_reminder' %}?pet={{ pet.id }}" class="btn btn-outline-primary">
+                            Add Health Record
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Records Timeline -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-transparent">
+                    <h5 class="mb-0">Health Records</h5>
+                </div>
+                <div class="card-body">
+                    {% if health_records %}
+                        <div class="timeline">
+                            {% for record in health_records %}
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-2">{{ record.get_record_type_display }}</h6>
+                                    <p class="text-muted mb-1">
+                                        <small>{{ record.record_date|date:"F j, Y" }}</small>
+                                    </p>
+                                    <p class="mb-0">{{ record.notes|truncatewords:30 }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <p class="text-muted">No health records yet.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .timeline {
+        position: relative;
+        padding: 20px 0;
+    }
+    .timeline-item {
+        padding-left: 40px;
+        position: relative;
+        margin-bottom: 20px;
+    }
+    .timeline-marker {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #007bff;
+        border: 3px solid #fff;
+        box-shadow: 0 0 0 2px #007bff;
+    }
+    .timeline-item:not(:last-child):before {
+        content: '';
+        position: absolute;
+        left: 7px;
+        top: 15px;
+        height: calc(100% + 5px);
+        width: 2px;
+        background: #e9ecef;
+    }
+</style>
+{% endblock %}

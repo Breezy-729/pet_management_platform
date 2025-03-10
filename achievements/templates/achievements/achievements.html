@@ -1,0 +1,102 @@
+<!-- achievements/templates/achievements/achievements.html -->
+{% extends 'base.html' %}
+
+{% block title %}Achievements - Pet Care Hub{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="mb-0">Your Achievements</h2>
+                            <p class="text-muted mb-0">
+                                Completed: {{ completed_count }} of {{ achievements_data|length }}
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar" role="progressbar" 
+                                     style="width: {% widthratio completed_count achievements_data|length 100 %}%">
+                                    {% widthratio completed_count achievements_data|length 100 %}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievements Grid -->
+    <div class="row g-4">
+        {% for achievement_data in achievements_data %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm {% if not achievement_data.is_completed %}opacity-75{% endif %}">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="me-3 text-primary" style="width: 50px; height: 50px; font-size: 2.5rem; display: flex; align-items: center; justify-content: center;">
+                            {% if achievement_data.achievement.category == 'beginner' %}
+                                <i class="fas fa-award"></i>
+                            {% elif achievement_data.achievement.category == 'health' %}
+                                <i class="fas fa-heartbeat"></i>
+                            {% elif achievement_data.achievement.category == 'care' %}
+                                <i class="fas fa-hand-holding-heart"></i>
+                            {% elif achievement_data.achievement.category == 'master' %}
+                                <i class="fas fa-crown"></i>
+                            {% elif achievement_data.achievement.category == 'intermediate' %}
+                                <i class="fas fa-star"></i>
+                            {% elif achievement_data.achievement.category == 'social' %}
+                                <i class="fas fa-users"></i>
+                            {% else %}
+                                <i class="fas fa-medal"></i>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-0">{{ achievement_data.achievement.name }}</h5>
+                            <small class="text-muted">{{ achievement_data.achievement.category }}</small>
+                        </div>
+                    </div>
+                    
+                    <p class="card-text">{{ achievement_data.achievement.description }}</p>
+                </div>
+
+                <!-- Status Footer -->
+                <div class="card-footer bg-transparent">
+                    {% if achievement_data.is_completed %}
+                        <div class="text-success">
+                            <i class="fas fa-check-circle me-2"></i>Completed
+                        </div>
+                    {% else %}
+                        <div class="text-muted">
+                            <i class="fas fa-lock me-2"></i>{{ achievement_data.achievement.requirement }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .achievement-locked {
+        filter: grayscale(100%);
+    }
+    .progress {
+        background-color: #e9ecef;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .progress-bar {
+        background-color: #28a745;
+        transition: width 0.6s ease;
+    }
+</style>
+{% endblock %}

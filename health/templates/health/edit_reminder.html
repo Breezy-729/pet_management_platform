@@ -1,0 +1,47 @@
+<!-- health/templates/health/edit_reminder.html -->
+{% extends 'base.html' %}
+{% load form_filters %}
+{% block title %}Edit Health Record - Pet Care Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-transparent">
+                    <h4 class="mb-0">Edit Health Record</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <!-- Form fields - Same structure as add_reminder.html -->
+                            {% for field in form %}
+                            <div class="{% if field.name in 'symptoms,diagnosis,treatment,notes' %}col-12{% else %}col-md-6{% endif %} mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">
+                                    {{ field.label }}
+                                </label>
+                                {{ field|addclass:'form-control' }}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if field.name == 'temperature' %}
+                                    <div class="form-text">Usually, normal temperature is between 35-43°C.</div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'reminders' %}" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Update Record</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

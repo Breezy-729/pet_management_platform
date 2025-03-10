@@ -1,0 +1,22 @@
+健康检查字段说明：
+Symptoms（症状）
+Diagnosis（诊断）
+Treatment（治疗）
+Next Visit Date（下次就诊日期）
+Veterinarian（兽医名）
+Clinic（诊所）
+Additional Notes（附加备注）
+
+
+
+
+成就类别和任务
+Novice Pet Owner（新手宠物主人）：用户已完成“领养你的第一只宠物”任务
+Information craftsman（信息工匠）：用户已完成“完成你的账户资料”任务，表明用户已经完善了个人账户信息。
+Experienced Pet Owner（有经验的宠物主人）：用户已完成“创建第一个健康记录”任务，表明用户已经开始记录宠物的健康状况。
+Health Guardian（健康守护者）：用户需要完成“完成五次检查”任务，以进一步提升对宠物健康的关注。
+Care Angel（关爱天使）：用户需要完成“ 10次健康检查” 以成为更全面的宠物主人
+Perfect Pet Parent（完美宠物父母）：用户需要完成“领养三只宠物”任务，以展示对宠物的关爱和责任感。
+
+
+

@@ -1,0 +1,63 @@
+<!-- users/templates/users/register.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% load form_filters %} 
+
+{% block title %}Register - Pet Care Hub{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4">Create Your Account</h2>
+                <form method="POST">
+                    {% csrf_token %}
+						  {% for field in form %}
+						<div class="mb-3">
+							<label for="{{ field.id_for_label }}" class="form-label">
+								{{ field.label }}
+							</label>
+							{{ field|addclass:'form-control' }}
+							{% if field.errors %}
+								{% for error in field.errors %}
+									<div class="invalid-feedback d-block">
+										{{ error }}
+									</div>
+								{% endfor %}
+							{% endif %}
+							{% if field.help_text %}
+								<small class="form-text text-muted">
+									{{ field.help_text }}
+								</small>
+							{% endif %}
+						</div>
+						{% endfor %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Create Account</button>
+                    </div>
+                </form>
+                <div class="text-center mt-3">
+                    <small class="text-muted">
+                        Already have an account? &nbsp;&nbsp;&nbsp;<a href="{% url 'login' %}">Sign in</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    const password1 = document.querySelector('#id_password1').value;
+    const password2 = document.querySelector('#id_password2').value;
+    
+    if(password1 !== password2) {
+        e.preventDefault();  
+        alert('The passwords entered twice do not match!');  
+    }
+});
+</script>
+
+
+{% endblock %}

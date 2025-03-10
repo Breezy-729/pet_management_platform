@@ -1,0 +1,97 @@
+<!-- health/templates/health/add_reminder.html -->
+{% extends 'base.html' %}
+{% load form_filters %}
+{% block title %}Add Health Record - Pet Care Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-transparent">
+                    <h4 class="mb-0">Add Health Record</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <!-- Pet Selection and Record Type -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.pet.id_for_label }}" class="form-label">Pet</label>
+                                {{ form.pet|addclass:'form-select' }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.record_type.id_for_label }}" class="form-label">Record Type</label>
+                                {{ form.record_type|addclass:'form-select' }}
+                            </div>
+
+                            <!-- Record Date and Status -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.record_date.id_for_label }}" class="form-label">Record Date</label>
+                                {{ form.record_date|addclass:'form-control' }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.status.id_for_label }}" class="form-label">Health Status</label>
+                                {{ form.status|addclass:'form-select' }}
+                            </div>
+
+                            <!-- Weight and Temperature -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.weight.id_for_label }}" class="form-label">Weight (kg)</label>
+                                {{ form.weight|addclass:'form-control' }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.temperature.id_for_label }}" class="form-label">Temperature (°C)</label>
+                                {{ form.temperature|addclass:'form-control' }}
+                            </div>
+
+                            <!-- Symptoms and Diagnosis -->
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.symptoms.id_for_label }}" class="form-label">Symptoms</label>
+                                {{ form.symptoms|addclass:'form-control' }}
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.diagnosis.id_for_label }}" class="form-label">Diagnosis</label>
+                                {{ form.diagnosis|addclass:'form-control' }}
+                            </div>
+
+                            <!-- Treatment -->
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.treatment.id_for_label }}" class="form-label">Treatment</label>
+                                {{ form.treatment|addclass:'form-control' }}
+                            </div>
+
+                            <!-- Next Visit Date -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.next_visit_date.id_for_label }}" class="form-label">Next Visit Date</label>
+                                {{ form.next_visit_date|addclass:'form-control' }}
+                            </div>
+
+                            <!-- Vet and Clinic Information -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.vet_name.id_for_label }}" class="form-label">Veterinarian</label>
+                                {{ form.vet_name|addclass:'form-control' }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.clinic_name.id_for_label }}" class="form-label">Clinic</label>
+                                {{ form.clinic_name|addclass:'form-control' }}
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.notes.id_for_label }}" class="form-label">Additional Notes</label>
+                                {{ form.notes|addclass:'form-control' }}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'reminders' %}" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Save Record</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+<!-- health/templates/health/reminders.html -->
+{% extends 'base.html' %}
+{% load form_filters %}
+{% load static %}
+
+{% block title %}Health Reminders - Pet Care Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Health Reminders</h2>
+        <a href="{% url 'add_reminder' %}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Add New Record
+        </a>
+    </div>
+
+    <!-- Reminders List -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    {% if records %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Pet</th>
+                                        <th>Type</th>
+                                        <!--<th>Date</th>-->
+                                        <th>Status</th>
+                                        <th>Next Visit</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for record in records %}
+                                    <tr class="{% if record.next_visit_date|is_future_date %}future-date{% else %}past-date{% endif %}">
+										<td>
+											<img src="{% if record.pet.photo %}{{ record.pet.photo.url }}{% else %}{% static 'images/default-pet.png' %}{% endif %}"
+												 class="rounded-circle me-2" 
+												 style="width: 30px; height: 30px; object-fit: cover;">
+											{{ record.pet.name }}
+										</td>
+										
+										
+										
+                                        <td>{{ record.get_record_type_display }}</td>
+                                        <!--<td>{{ record.record_date|date:"M d, Y" }}</td>-->
+                                        <td>{{ record.get_status_display }}</td>
+                                        <td>
+                                            {% if record.next_visit_date %}
+                                                {{ record.next_visit_date|date:"M d, Y" }}
+                                                {% if record.next_visit_date|is_future_date %}
+                                                    <span class="notification-dot"></span>
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'edit_reminder' record.id %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-notes-medical fa-3x text-muted mb-3"></i>
+                            <h4>No Health Records Yet</h4>
+                            <p class="text-muted">Start tracking your pets' health by adding records.</p>
+                            <a href="{% url 'add_reminder' %}" class="btn btn-primary">
+                                Add First Record
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
